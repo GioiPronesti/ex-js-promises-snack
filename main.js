@@ -44,3 +44,36 @@ getPost(1)
 getPostTitle(1)
   .then((title) => console.log(title))
   .catch((error) => console.error(error));
+
+/* Es 2:  Crea la funzione lanciaDado() che restituisce una Promise che, dopo 3 secondi, genera un numero casuale tra 1 e 6. Tuttavia, nel 20% dei casi, il dado si "incastra" e la Promise va in reject.
+🎯 Bonus: HOF con closure per memorizzare l'ultimo lancio
+Modifica la funzione in creaLanciaDado(), che restituisce una closure che memorizza l'ultimo risultato. Se il numero esce due volte di fila, stampa "Incredibile!". */
+
+function getRandomArbitrary(min, max) {
+  const number = Math.round(Math.random() * (max - min));
+
+  return console.log(number);
+}
+
+function lanciaDado() {
+  return new Promise((resolve, reject) => {
+    console.log("Sto tirando il dado...");
+    setTimeout(() => {
+      const minValue = 1;
+      const maxValue = 6;
+      const randomValue = getRandomArbitrary(1, 6);
+
+      const winnerValue = minValue >= 1 && maxValue <= 6; // tiro valido se risulta da 1-6
+      const value = winnerValue === 0 ? false : true;
+      if (winnerValue === randomValue) {
+        resolve(`il numero ${randomValue} è valido, 80% resolve score!`);
+      } else {
+        reject(`il numero ${randomValue} è non valido, 20% reject score!`);
+      }
+    }, 3000);
+  });
+}
+
+lanciaDado()
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
