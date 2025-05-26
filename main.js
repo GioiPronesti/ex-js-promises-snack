@@ -49,31 +49,21 @@ getPostTitle(1)
 🎯 Bonus: HOF con closure per memorizzare l'ultimo lancio
 Modifica la funzione in creaLanciaDado(), che restituisce una closure che memorizza l'ultimo risultato. Se il numero esce due volte di fila, stampa "Incredibile!". */
 
-function getRandomArbitrary(min, max) {
-  const number = Math.round(Math.random() * (max - min));
-
-  return console.log(number);
-}
-
 function lanciaDado() {
   return new Promise((resolve, reject) => {
     console.log("Sto tirando il dado...");
     setTimeout(() => {
-      const minValue = 1;
-      const maxValue = 6;
-      const randomValue = getRandomArbitrary(1, 6);
-
-      const winnerValue = minValue >= 1 && maxValue <= 6; // tiro valido se risulta da 1-6
-      const value = winnerValue === 0 ? false : true;
-      if (winnerValue === randomValue) {
-        resolve(`il numero ${randomValue} è valido, 80% resolve score!`);
+      const isTrapped = Math.random() < 0.2;
+      if (isTrapped) {
+        reject(`il dado si è intrappolato!`);
       } else {
-        reject(`il numero ${randomValue} è non valido, 20% reject score!`);
+        const result = Math.floor(Math.random() * 6) + 1;
+        resolve(result);
       }
     }, 3000);
   });
 }
 
 lanciaDado()
-  .then((result) => console.log(result))
+  .then((result) => console.log("il dado ha lanciato:", result))
   .catch((error) => console.error(error));
